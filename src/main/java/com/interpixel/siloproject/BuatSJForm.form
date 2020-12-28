@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="nomorSJLbl" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="namaCustomerLbl" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="emailCustomerLbl" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="nomorInvoiceLbl" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="tanggalOrderLbl" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="itemsLbl" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="buatSJBtn" min="-2" max="-2" attributes="0"/>
+                  <Component id="nomorInvoiceTxt" alignment="0" max="32767" attributes="0"/>
+                  <Component id="tanggalOrderTxt" alignment="0" max="32767" attributes="0"/>
+                  <Component id="emailCustomerTxt" alignment="0" max="32767" attributes="0"/>
+                  <Component id="namaCustomerTxt" alignment="0" max="32767" attributes="0"/>
+                  <Component id="nomorSJTxt" alignment="0" max="32767" attributes="0"/>
+                  <Component id="itemsTxt" alignment="0" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="nomorInvoiceLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="nomorInvoiceTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="nomorSJLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="nomorSJTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="namaCustomerLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="namaCustomerTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="emailCustomerLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="emailCustomerTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="tanggalOrderLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tanggalOrderTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="itemsTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="itemsLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="buatSJBtn" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JLabel" name="nomorSJLbl">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nomor SJ"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="nomorInvoiceLbl">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nomor Invoice"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="nomorInvoiceTxt">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="nomorSJTxt">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="namaCustomerTxt">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="emailCustomerTxt">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="tanggalOrderTxt">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="tanggalOrderLbl">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Tanggal Order"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="emailCustomerLbl">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Email Customer"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="namaCustomerLbl">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nama Customer"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="itemsLbl">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Items"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="buatSJBtn">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Buat SJ"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buatSJBtnActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="itemsTxt">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="99" green="99" red="99" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="(Amount) (Barcode/Nama), Ex: 4 321354, 2 Thermogun Devices"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemsTxtActionPerformed"/>
+      </Events>
+    </Component>
+  </SubComponents>
+</Form>

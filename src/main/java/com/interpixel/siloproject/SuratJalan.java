@@ -6,17 +6,312 @@
 package com.interpixel.siloproject;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Vector;
 
 /**
  *
  * @author Julius
  */
 public class SuratJalan {
-    public SuratPembelian sp;
+
+    public String nomorInvoice;
     public String nomorSJ;
     public String namaCustomer;
     public String emailCustomer;
     public LocalDate tanggalOrder;
     public LocalDate tanggalSelesai;
-    public String status;
+    public SuratJalan.Status status;
+    public ArrayList<SuratJalan.ItemBeli> items = new ArrayList<>();
+
+    public class Status {
+
+        StatusState state;
+
+        private Status(String status) {
+            if (status.equals("new")) {
+                this.state = new NewState();
+            } else if (status.equals("preparing")) {
+                this.state = new PreparingState();
+            } else if (status.equals("completed")) {
+                this.state = new CompletedState();
+            } else if (status.equals("pending")) {
+                this.state = new PendingState();
+            } else {
+                throw new UnsupportedOperationException("Status string '"
+                        + status + "' is defined");
+            }
+        }
+
+        public String toString() {
+            return state.toString();
+        }
+
+        private void setState(Status context, StatusState state) {
+            context.state = state;
+        }
+
+        public void prepareSJ() {
+            state.prepareSJ(this);
+        }
+
+        public void signSJ() {
+            state.signSJ(this);
+        }
+
+        public void pendingSJ() {
+            state.pendingSJ(this);
+        }
+    }
+
+    public class ItemBeli {
+
+        Item item;
+        int jumlah;
+
+        public ItemBeli(Item item, int jumlah) {
+            this.item = item;
+            this.jumlah = jumlah;
+        }
+
+        public Vector<String> toVector() {
+            var result = this.item.toVector();
+            result.add(String.valueOf(this.jumlah));
+            return result;
+        }
+    };
+
+    void setItemBeli(ArrayList<String[]> results) {
+        for (String[] result : results) {
+            Item item = new Item(result);
+            int jumlah = Integer.parseInt(result[7]);
+            items.add(new ItemBeli(item, jumlah));
+        }
+    }
+
+    public HashMap<Integer, Integer> itemsToDict() {
+        HashMap<Integer, Integer> result = new HashMap<Integer, Integer>();
+        for (ItemBeli itemBeli : this.items) {
+            result.put(itemBeli.item.id, itemBeli.jumlah);
+        }
+        return result;
+    }
+
+    public ArrayList<Integer> itemIdsToArrList() {
+        ArrayList<Integer> result = new ArrayList<>();
+        for (ItemBeli itemBeli : this.items) {
+            result.add(itemBeli.item.id);
+        }
+        return result;
+    }
+
+    // item ids of cur SJ into int array, used to create sql array
+    public int[] itemIdsToArr() {
+        int length = this.items.size();
+        int[] result = new int[length];
+        for (int i = 0; i < this.items.size(); i++) {
+            ItemBeli itemBeli = this.items.get(i);
+            result[i] = itemBeli.item.id;
+        }
+        return result;
+    }
+
+    // item ids of cur SJ into Object array, used to create sql array
+    public Object[] itemIdsToObjArr() {
+        int length = this.items.size();
+        Object[] result = new Object[length];
+        for (int i = 0; i < this.items.size(); i++) {
+            ItemBeli itemBeli = this.items.get(i);
+            result[i] = itemBeli.item.id;
+        }
+        return result;
+    }
+
+    // Constructs SuratJalan from a row result set
+    public SuratJalan(String[] row) {
+        this(
+                row[0],
+                row[1],
+                row[2],
+                row[3],
+                row[4],
+                row[5],
+                row[6]
+        );
+    }
+
+    // Constructs SuratJalan from fields
+    public SuratJalan(String nomorInvoice, String nomorSJ, String namaCustomer,
+            String emailCustomer, String tanggalOrder, String tanggalSelesai,
+            String status) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+
+        this.nomorInvoice = nomorInvoice;
+        this.nomorSJ = nomorSJ;
+        this.namaCustomer = namaCustomer;
+        this.emailCustomer = emailCustomer;
+        this.tanggalOrder = LocalDate.parse(tanggalOrder, formatter);
+        if (tanggalSelesai != null) {
+            this.tanggalSelesai = LocalDate.parse(tanggalSelesai, formatter);
+        }
+        this.status = new Status(status);
+    }
+
+    // Constructs SuratJalan from input (without tanggalSelesai and status)
+    public SuratJalan(String nomorInvoice, String nomorSJ, String namaCustomer,
+            String emailCustomer, String tanggalOrder) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        this.nomorInvoice = nomorInvoice;
+        this.nomorSJ = nomorSJ;
+        this.namaCustomer = namaCustomer;
+        this.emailCustomer = emailCustomer;
+        this.tanggalOrder = LocalDate.parse(tanggalOrder, formatter);
+        this.status = new Status("new");
+    }
+
+    public Vector<String> toVector() {
+        Vector<String> current = new Vector<>();
+        current.add(this.nomorInvoice);
+        current.add(this.nomorSJ);
+        current.add(this.namaCustomer);
+        current.add(this.emailCustomer);
+        current.add(this.tanggalOrder.toString());
+        if (this.tanggalSelesai == null) {
+            current.add(null);
+        } else {
+            current.add(this.tanggalSelesai.toString());
+        }
+        current.add(this.status.toString());
+        return current;
+    }
+
+    public void prepareSJ() {
+        this.status.prepareSJ();
+    }
+
+    public void signSJ() {
+        this.status.signSJ();
+    }
+
+    public void pendingSJ() {
+        this.status.pendingSJ();
+    }
+
+    interface StatusState {
+
+        public String toString();
+
+        void prepareSJ(Status context);
+
+        void signSJ(Status context);
+
+        void pendingSJ(Status context);
+
+    }
+
+    class NewState implements StatusState {
+
+        @Override
+        public String toString() {
+            return "new";
+        }
+
+        @Override
+        public void prepareSJ(Status context) {
+            context.setState(context, new PreparingState());
+        }
+
+        @Override
+        public void signSJ(Status context) {
+            throw new UnsupportedOperationException("Function should not be "
+                    + "called for the current state");
+        }
+
+        @Override
+        public void pendingSJ(Status context) {
+            context.setState(context, new PendingState());
+        }
+
+    }
+
+    class PreparingState implements StatusState {
+
+        @Override
+        public String toString() {
+            return "preparing";
+        }
+
+        @Override
+        public void prepareSJ(Status context) {
+            throw new UnsupportedOperationException("Function should not be "
+                    + "called for the current state");
+        }
+
+        @Override
+        public void signSJ(Status context) {
+            context.setState(context, new CompletedState());
+        }
+
+        @Override
+        public void pendingSJ(Status context) {
+            context.setState(context, new PendingState());
+        }
+
+    }
+
+    class CompletedState implements StatusState {
+
+        @Override
+        public String toString() {
+            return "completed";
+        }
+
+        @Override
+        public void prepareSJ(Status context) {
+            throw new UnsupportedOperationException("Function should not be "
+                    + "called for the current state");
+        }
+
+        @Override
+        public void signSJ(Status context) {
+            throw new UnsupportedOperationException("Function should not be "
+                    + "called for the current state");
+        }
+
+        @Override
+        public void pendingSJ(Status context) {
+            throw new UnsupportedOperationException("Function should not be "
+                    + "called for the current state");
+        }
+
+    }
+
+    class PendingState implements StatusState {
+
+        @Override
+        public String toString() {
+            return "pending";
+        }
+
+        @Override
+        public void prepareSJ(Status context) {
+            context.setState(context, new PreparingState());
+        }
+
+        @Override
+        public void signSJ(Status context) {
+            context.setState(context, new CompletedState());
+        }
+
+        @Override
+        public void pendingSJ(Status context) {
+            throw new UnsupportedOperationException("Function should not be "
+                    + "called for the current state");
+        }
+
+    }
+
 }

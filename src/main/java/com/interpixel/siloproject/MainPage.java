@@ -5,7 +5,12 @@
  */
 package com.interpixel.siloproject;
 
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.util.ArrayList;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  *
@@ -13,11 +18,126 @@ import javax.swing.JFrame;
  */
 public class MainPage extends javax.swing.JFrame {
 
+    private DBHandler dbHandler;
+    private SJCtl sjCtl;
+    private CardLayout cardLayout = new CardLayout();
+    private JPanel cardPanel;
+
+    private DaftarItem daftarItem;
+    private DaftarSJ daftarSJ;
+    private BuatSJForm buatSJForm;
+    private DaftarSP daftarSP;
+    private DetailSJForm lastDetailSJForm;
+
     /**
      * Creates new form MainPage
      */
     public MainPage() {
+        setLayout(new BorderLayout());
         initComponents();
+        initObjects();
+
+    }
+
+    public void initObjects() {
+        dbHandler = new DBHandler();
+        sjCtl = new SJCtl(this);
+        sjCtl.addDBHanlder(dbHandler);
+
+        // Init JPanels
+        cardPanel = new JPanel();
+        cardPanel.setLayout(cardLayout);
+        cardPanel.add(new JPanel(), "Empty Panel");
+        setContentPane(cardPanel);
+    }
+
+    // Start routes
+    public void tampilkanDaftarItem() {
+        if (daftarItem != null) {
+            cardPanel.remove(daftarItem);
+        }
+        daftarItem = new DaftarItem(this);
+        cardPanel.add(daftarItem, "Daftar Item");
+        cardLayout.show(cardPanel, "Daftar Item");
+    }
+
+    public void tampilkanDaftarSJ() {
+        if (daftarSJ != null) {
+            cardPanel.remove(daftarSJ);
+        }
+        daftarSJ = new DaftarSJ(this);
+        cardPanel.add(daftarSJ, "Daftar SJ");
+        cardLayout.show(cardPanel, "Daftar SJ");
+    }
+
+    public void onTampilkanDetailSJ(SuratJalan curSuratJalan) {
+        sjCtl.tampilkanDetailSJ(curSuratJalan);
+    }
+
+    public void tampilkanDetailSJ(SuratJalan curSuratJalan) {
+        if (lastDetailSJForm != null) {
+            cardPanel.remove(lastDetailSJForm);
+        }
+        lastDetailSJForm = new DetailSJForm(this, curSuratJalan);
+        cardPanel.add(lastDetailSJForm, "Detail SJ");
+        cardLayout.show(cardPanel, "Detail SJ");
+    }
+
+    public void prepareSJ(SuratJalan suratJalan) {
+        sjCtl.prepareSJ(suratJalan);
+    }
+
+    public void signSJ(SuratJalan suratJalan) {
+        sjCtl.signSJ(suratJalan);
+    }
+
+    public void pendingSJ(SuratJalan suratJalan) {
+        sjCtl.pendingSJ(suratJalan);
+    }
+
+    public void tampilkanBuatSJForm() {
+        if (buatSJForm != null) {
+            cardPanel.remove(buatSJForm);
+        }
+        
+        buatSJForm = new BuatSJForm(this);
+        cardPanel.add(buatSJForm, "Buat SJ Form");
+        cardLayout.show(cardPanel, "Buat SJ Form");
+    }
+
+    public int tampilkanConfirmDialog() {
+        return sjCtl.tampilkanConfirmDialog();
+    }
+
+    public void confirmBuatSJ(String[] input) {
+        SuratJalan curSuratJalan = sjCtl.confirmBuatSJ(input);
+        if (curSuratJalan == null) {
+            return;
+        }
+
+        if (lastDetailSJForm != null) {
+            cardPanel.remove(lastDetailSJForm);
+        }
+        lastDetailSJForm = new DetailSJForm(this, curSuratJalan);
+        cardPanel.add(lastDetailSJForm, "Detail SJ");
+        cardLayout.show(cardPanel, "Detail SJ");
+    }
+
+    public void tampilkanDaftarSP() {
+        if (daftarSP != null) {
+            cardPanel.remove(daftarSP);
+        }
+        daftarSP = new DaftarSP(this);
+        cardPanel.add(daftarSP, "Daftar SP");
+        cardLayout.show(cardPanel, "Daftar SP");
+    }
+
+    public ArrayList<SuratJalan> getSJ() {
+        return sjCtl.getSJ();
+    }
+
+    public ArrayList<SuratJalan> cariSJ(String keyword) {
+        return sjCtl.cariSJ(keyword);
     }
 
     /**
@@ -29,89 +149,78 @@ public class MainPage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        menuDaftarSJButton = new javax.swing.JButton();
-        menuDaftarItemButton = new javax.swing.JButton();
-        menuBuatSJ = new javax.swing.JButton();
-        menuDaftarSP = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        daftarItemMenu = new javax.swing.JMenu();
+        daftarSJMenu = new javax.swing.JMenu();
+        buatSJMenu = new javax.swing.JMenu();
+        daftarSPMenu = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MainPage");
 
-        menuDaftarSJButton.setText("MenuDaftarSJ");
-        menuDaftarSJButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuDaftarSJButtonActionPerformed(evt);
+        daftarItemMenu.setText("Daftar Item");
+        daftarItemMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                daftarItemMenuMouseClicked(evt);
             }
         });
+        jMenuBar1.add(daftarItemMenu);
 
-        menuDaftarItemButton.setText("MenuDaftarItem");
-        menuDaftarItemButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuDaftarItemButtonActionPerformed(evt);
+        daftarSJMenu.setText("Daftar SJ");
+        daftarSJMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                daftarSJMenuMouseClicked(evt);
             }
         });
+        jMenuBar1.add(daftarSJMenu);
 
-        menuBuatSJ.setText("MenuBuatSJ");
-        menuBuatSJ.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuBuatSJActionPerformed(evt);
+        buatSJMenu.setText("Buat SJ");
+        buatSJMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                buatSJMenuMouseClicked(evt);
             }
         });
+        jMenuBar1.add(buatSJMenu);
 
-        menuDaftarSP.setText("MenuDaftarSP");
-        menuDaftarSP.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuDaftarSPActionPerformed(evt);
+        daftarSPMenu.setText("Daftar SP");
+        daftarSPMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                daftarSPMenuMouseClicked(evt);
             }
         });
+        jMenuBar1.add(daftarSPMenu);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(menuDaftarSJButton)
-                    .addComponent(menuDaftarItemButton)
-                    .addComponent(menuBuatSJ)
-                    .addComponent(menuDaftarSP))
-                .addGap(0, 289, Short.MAX_VALUE))
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(menuDaftarItemButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(menuDaftarSJButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(menuBuatSJ)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(menuDaftarSP)
-                .addContainerGap(190, Short.MAX_VALUE))
+            .addGap(0, 279, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void menuDaftarSJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDaftarSJButtonActionPerformed
-        JFrame frame = new DaftarSJ();
-        frame.setVisible(true);
-    }//GEN-LAST:event_menuDaftarSJButtonActionPerformed
+    private void buatSJMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buatSJMenuMouseClicked
+        sjCtl.tampilkanBuatSJForm();
+    }//GEN-LAST:event_buatSJMenuMouseClicked
 
-    private void menuDaftarItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDaftarItemButtonActionPerformed
-        JFrame frame = new DaftarItem();
-        frame.setVisible(true);
-    }//GEN-LAST:event_menuDaftarItemButtonActionPerformed
+    private void daftarItemMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_daftarItemMenuMouseClicked
+        sjCtl.tampilkanDaftarItem();
+    }//GEN-LAST:event_daftarItemMenuMouseClicked
 
-    private void menuBuatSJActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBuatSJActionPerformed
-        JFrame frame = new BuatSJ();
-        frame.setVisible(true);
-    }//GEN-LAST:event_menuBuatSJActionPerformed
+    private void daftarSJMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_daftarSJMenuMouseClicked
+        sjCtl.tampilkanDaftarSJ();
+    }//GEN-LAST:event_daftarSJMenuMouseClicked
 
-    private void menuDaftarSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDaftarSPActionPerformed
-        JFrame frame = new DaftarSP();
-        frame.setVisible(true);
-    }//GEN-LAST:event_menuDaftarSPActionPerformed
+    private void daftarSPMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_daftarSPMenuMouseClicked
+        sjCtl.tampilkanDaftarSP();
+    }//GEN-LAST:event_daftarSPMenuMouseClicked
 
     /**
      * @param args the command line arguments
@@ -143,15 +252,17 @@ public class MainPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainPage().setVisible(true);
+                (new MainPage()).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton menuBuatSJ;
-    private javax.swing.JButton menuDaftarItemButton;
-    private javax.swing.JButton menuDaftarSJButton;
-    private javax.swing.JButton menuDaftarSP;
+    private javax.swing.JMenu buatSJMenu;
+    private javax.swing.JMenu daftarItemMenu;
+    private javax.swing.JMenu daftarSJMenu;
+    private javax.swing.JMenu daftarSPMenu;
+    private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
+
 }
