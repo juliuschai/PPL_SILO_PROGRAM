@@ -5,6 +5,8 @@
  */
 package com.interpixel.siloproject;
 
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -111,7 +113,9 @@ public class SJCtl {
     }
 
     public int tampilkanConfirmDialog() {
-        int dialogResult = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin membuat SJ ini?", "Warning", JOptionPane.YES_NO_OPTION);
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Apakah Anda "
+                + "yakin ingin membuat SJ ini?",
+                "Warning", JOptionPane.YES_NO_OPTION);
         return dialogResult;
     }
 
@@ -125,27 +129,53 @@ public class SJCtl {
         );
         String itemsStr = input[5];
 
-        String[] parts = itemsStr.split(",");
-        for (String part : parts) {
-            // Process string
-            String[] temp = part.trim().split(" ", 2);
-            int jumlah = Integer.parseInt(temp[0].trim());
-            String itemStr = temp[1].trim();
-            
-            // Get item from string
-            String[] itemArr = dbHandler.itemFromStr(itemStr);
-            if (itemArr == null) {
-                // If item doesn't exist
-                JOptionPane.showMessageDialog(null, "Item: " + itemStr + " tidak ditemukan!");
-                return null;
+        // Surat jalan may have no items
+        if (itemsStr != null) {
+            String[] parts = itemsStr.split(",");
+            for (String part : parts) {
+                // Process string
+                String[] temp = part.trim().split(" ", 2);
+                int jumlah = Integer.parseInt(temp[0].trim());
+                String itemStr = temp[1].trim();
+
+                // Get item from string
+                String[] itemArr = dbHandler.itemFromStr(itemStr);
+                if (itemArr == null) {
+                    // If item doesn't exist
+                    JOptionPane.showMessageDialog(null, "Item: " + itemStr
+                            + " tidak ditemukan!");
+                    return null;
+                }
+                Item item = new Item(itemArr);
+                // add item to suratjalan
+                newSuratJalan.items.add(newSuratJalan.new ItemBeli(item, jumlah));
             }
-            Item item = new Item(itemArr);
-            // add item to suratjalan
-            newSuratJalan.items.add(newSuratJalan.new ItemBeli(item, jumlah));
         }
 
         dbHandler.simpanBuatSJ(newSuratJalan);
         return newSuratJalan;
+    }
+
+    public void tampilkanEmailSJForm(SuratJalan curSuratJalan) {
+        mainPage.tampilkanDetailSJ(curSuratJalan);
+    }
+
+    public void emailSJ(String emailTo, String emailSubject, String emailBody) {
+        JOptionPane.showMessageDialog(null, "Email SJ Terkirim.");
+        mainPage.tampilkanMainPage();
+    }
+
+    public void printSJ(SuratJalan suratJalan) {
+        PrinterJob printJob = PrinterJob.getPrinterJob();
+        printJob.setPrintable(new TextPrinter(suratJalan.toString()));
+        boolean doPrint = printJob.printDialog();
+        if (doPrint) {
+            try {
+                printJob.print();
+            } catch (PrinterException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void tampilkanDaftarSP() {

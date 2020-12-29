@@ -43,6 +43,31 @@ public class SuratJalan {
         }
 
     }
+    
+    public String toString() {
+        String res = "Nomor Invoice: " + nomorInvoice + "\n"
+                + "Nomor SJ: " + nomorSJ + "\n"
+                + "Nama Customer: " + namaCustomer + "\n"
+                + "Email Customer: " + emailCustomer + "\n"
+                + "Tanggal Order: " + tanggalOrder + "\n"
+                + "Tanggal Selesai: " + tanggalSelesai + "\n"
+                + "Status: " + status + "\n"
+                + "Items: \n"
+                + itemsToString();
+        return res;
+    }
+
+    private String itemsToString() {
+        StringBuilder sb = new StringBuilder();
+        String res = "";
+        for (ItemBeli itemBeli : items) {
+            sb.append(itemBeli.item.toString());
+            sb.append(" ");
+            sb.append(itemBeli.jumlah);
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
 
     void setItemBeli(ArrayList<String[]> results) {
         for (String[] result : results) {

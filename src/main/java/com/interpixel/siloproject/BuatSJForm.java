@@ -176,13 +176,19 @@ public class BuatSJForm extends javax.swing.JPanel {
         int dialogResult = mainPage.tampilkanConfirmDialog();
         if(dialogResult != JOptionPane.YES_OPTION) {return;}
 
+        // if itemsTxt.getText is the placeholder, set it to null
+        String itemsStr = itemsTxt.getText();
+        if (itemsStr.equals("(Amount) (Barcode/Nama), Ex: 4 321354, 2 Thermogun Devices")) {
+            itemsStr = null;
+        }
+
         String[] input = {
             nomorInvoiceTxt.getText(),
             nomorSJTxt.getText(),
             namaCustomerTxt.getText(),
             emailCustomerTxt.getText(),
             tanggalOrderTxt.getText(),
-            itemsTxt.getText()
+            itemsStr
         };
         mainPage.confirmBuatSJ(input);
 

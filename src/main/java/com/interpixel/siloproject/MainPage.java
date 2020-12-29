@@ -28,6 +28,7 @@ public class MainPage extends javax.swing.JFrame {
     private BuatSJForm buatSJForm;
     private DaftarSP daftarSP;
     private DetailSJForm lastDetailSJForm;
+    private EmailSJForm lastEmailSJForm;
 
     /**
      * Creates new form MainPage
@@ -49,6 +50,10 @@ public class MainPage extends javax.swing.JFrame {
         cardPanel.setLayout(cardLayout);
         cardPanel.add(new JPanel(), "Empty Panel");
         setContentPane(cardPanel);
+    }
+
+    void tampilkanMainPage() {
+        cardLayout.show(cardPanel, "Empty Panel");
     }
 
     // Start routes
@@ -121,6 +126,31 @@ public class MainPage extends javax.swing.JFrame {
         lastDetailSJForm = new DetailSJForm(this, curSuratJalan);
         cardPanel.add(lastDetailSJForm, "Detail SJ");
         cardLayout.show(cardPanel, "Detail SJ");
+    }
+    
+    public void onTampilkanEmailSJForm(SuratJalan curSuratJalan) {
+        sjCtl.tampilkanEmailSJForm(curSuratJalan);
+    }
+
+    public void tampilkanEmailSJForm(SuratJalan curSuratJalan) {
+        if (lastEmailSJForm != null) {
+            cardPanel.remove(lastEmailSJForm);
+        }
+        lastEmailSJForm = new EmailSJForm(this, curSuratJalan);
+        cardPanel.add(lastEmailSJForm, "Detail SJ");
+        cardLayout.show(cardPanel, "Detail SJ");
+    }
+
+    public void emailSJ(String emailTo, String emailSubject, String emailBody) {
+        sjCtl.emailSJ(emailTo,
+                emailSubject, 
+                emailBody
+        );
+
+    }
+
+    public void printSJ(SuratJalan suratJalan) {
+        sjCtl.printSJ(suratJalan);
     }
 
     public void tampilkanDaftarSP() {

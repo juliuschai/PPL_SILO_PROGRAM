@@ -41,15 +41,19 @@
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="preparingBtn" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="8" pref="8" max="-2" attributes="0"/>
-                              <Component id="pendingBtn" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                              <Component id="preparingBtn" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="8" pref="8" max="-2" attributes="0"/>
+                                  <Component id="pendingBtn" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="26" pref="26" max="-2" attributes="0"/>
+                                  <Component id="signBtn" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="26" pref="26" max="-2" attributes="0"/>
-                              <Component id="signBtn" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="printBtn" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="emailBtn" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="jScrollPane1" pref="669" max="32767" attributes="0"/>
@@ -83,11 +87,13 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="emailCustomerLbl" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="emailCustomerTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="emailBtn" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="tanggalOrderLbl" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="tanggalOrderTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="printBtn" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -231,6 +237,22 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="signBtnActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="printBtn">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Print Hardcopy"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="printBtnActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="emailBtn">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Send Softcopy"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="emailBtnActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

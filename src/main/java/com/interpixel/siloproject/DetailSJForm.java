@@ -59,18 +59,26 @@ public class DetailSJForm extends javax.swing.JPanel {
             preparingBtn.setEnabled(true);
             signBtn.setEnabled(false);
             pendingBtn.setEnabled(true);
+            emailBtn.setEnabled(true);
+            printBtn.setEnabled(true);
         } else if (this.suratJalan.status.toString().equals("preparing")) {
             preparingBtn.setEnabled(false);
             signBtn.setEnabled(true);
             pendingBtn.setEnabled(true);
+            emailBtn.setEnabled(false);
+            printBtn.setEnabled(false);
         } else if (this.suratJalan.status.toString().equals("pending")) {
             preparingBtn.setEnabled(true);
             signBtn.setEnabled(true);
             pendingBtn.setEnabled(false);
+            emailBtn.setEnabled(false);
+            printBtn.setEnabled(false);
         } else if (this.suratJalan.status.toString().equals("completed")) {
             preparingBtn.setEnabled(false);
             signBtn.setEnabled(false);
             pendingBtn.setEnabled(false);
+            emailBtn.setEnabled(false);
+            printBtn.setEnabled(false);
         } else {
             throw new UnsupportedOperationException("SuratJalan status undefined");
         }
@@ -104,6 +112,8 @@ public class DetailSJForm extends javax.swing.JPanel {
         pendingBtn = new javax.swing.JButton();
         preparingBtn = new javax.swing.JButton();
         signBtn = new javax.swing.JButton();
+        printBtn = new javax.swing.JButton();
+        emailBtn = new javax.swing.JButton();
 
         nomorInvoiceLbl.setText("Nomor Invoice");
 
@@ -186,6 +196,20 @@ public class DetailSJForm extends javax.swing.JPanel {
             }
         });
 
+        printBtn.setText("Print Hardcopy");
+        printBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printBtnActionPerformed(evt);
+            }
+        });
+
+        emailBtn.setText("Send Softcopy");
+        emailBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                emailBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -213,13 +237,16 @@ public class DetailSJForm extends javax.swing.JPanel {
                             .addComponent(emailCustomerTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(preparingBtn)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(pendingBtn))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addComponent(signBtn))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(preparingBtn)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(8, 8, 8)
+                                    .addComponent(pendingBtn))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(26, 26, 26)
+                                    .addComponent(signBtn)))
+                            .addComponent(printBtn, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(emailBtn, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -244,11 +271,13 @@ public class DetailSJForm extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(emailCustomerLbl)
-                    .addComponent(emailCustomerTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(emailCustomerTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(emailBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tanggalOrderLbl)
-                    .addComponent(tanggalOrderTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tanggalOrderTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(printBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tanggalSelesaiLbl)
@@ -278,7 +307,16 @@ public class DetailSJForm extends javax.swing.JPanel {
         updateEnabledButtons();
     }//GEN-LAST:event_pendingBtnActionPerformed
 
+    private void printBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printBtnActionPerformed
+        mainPage.printSJ(this.suratJalan);
+    }//GEN-LAST:event_printBtnActionPerformed
+
+    private void emailBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailBtnActionPerformed
+        mainPage.tampilkanEmailSJForm(this.suratJalan);
+    }//GEN-LAST:event_emailBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton emailBtn;
     private javax.swing.JLabel emailCustomerLbl;
     private javax.swing.JTextField emailCustomerTxt;
     private javax.swing.JScrollPane jScrollPane1;
@@ -290,6 +328,7 @@ public class DetailSJForm extends javax.swing.JPanel {
     private javax.swing.JTextField nomorSJTxt;
     private javax.swing.JButton pendingBtn;
     private javax.swing.JButton preparingBtn;
+    private javax.swing.JButton printBtn;
     private javax.swing.JButton signBtn;
     private javax.swing.JLabel statusLbl;
     private javax.swing.JTextField statusTxt;

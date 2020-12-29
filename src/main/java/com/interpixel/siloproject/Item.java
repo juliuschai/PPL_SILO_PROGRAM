@@ -33,6 +33,17 @@ public class Item {
         );
     }
 
+    public String toString() {
+        String res = "id: " + id + "\n"
+                + "Barcode: " + barcode + "\n"
+                + "Judul: " + judul + "\n"
+                + "Deskripsi: " + deskripsi + "\n"
+                + "Pemanufaktur: " + pemanufaktur + "\n"
+                + "Stock: " + stock + "\n"
+                + "URL: " + url + "\n";
+        return res;
+    }
+    
     // Constructs Item from fields
     public Item(String id, String barcode, String judul, String deskripsi, 
             String pemanufaktur, String stock, String url) {
