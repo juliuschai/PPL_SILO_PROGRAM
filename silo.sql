@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 28, 2020 at 02:45 PM
+-- Generation Time: Dec 29, 2020 at 06:51 AM
 -- Server version: 10.5.4-MariaDB
 -- PHP Version: 7.3.9
 
@@ -68,8 +68,9 @@ CREATE TABLE `surat_jalans` (
 
 INSERT INTO `surat_jalans` (`nomorInvoice`, `nomorSj`, `namaCustomer`, `emailCustomer`, `tanggalOrder`, `tanggalSelesai`, `status`) VALUES
 ('INV/2020/12/26/01', 'INV/2020/12/26/01', 'wasd1', 'wasd1@wasd1.com', '2020-12-27 00:00:00', '2020-12-28 00:00:00', 'completed'),
-('INV/2020/12/26/02', 'INV/2020/12/26/02', 'wasd1', 'wasd1@wasd1.com', '2020-12-27 00:00:00', NULL, 'new'),
-('INV/2020/12/28/01', 'INV/2020/12/28/01', 'wasd1', 'wasd1@wasd1.com', '2020-12-28 00:00:00', '2020-12-28 00:00:00', 'completed');
+('INV/2020/12/26/02', 'INV/2020/12/26/02', 'wasd1', 'wasd1@wasd1.com', '2020-12-27 00:00:00', '2020-12-29 00:00:00', 'completed'),
+('INV/2020/12/28/01', 'INV/2020/12/28/01', 'wasd1', 'wasd1@wasd1.com', '2020-12-28 00:00:00', '2020-12-28 00:00:00', 'completed'),
+('INV/2020/12/29/01', 'INV/2020/12/29/01', 'wasd1', 'wasd1@wasd1.com', '2020-12-29 00:00:00', NULL, 'new');
 
 -- --------------------------------------------------------
 
