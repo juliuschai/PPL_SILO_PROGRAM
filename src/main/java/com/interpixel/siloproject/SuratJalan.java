@@ -26,46 +26,6 @@ public class SuratJalan {
     public SuratJalan.Status status;
     public ArrayList<SuratJalan.ItemBeli> items = new ArrayList<>();
 
-    public class Status {
-
-        StatusState state;
-
-        private Status(String status) {
-            if (status.equals("new")) {
-                this.state = new NewState();
-            } else if (status.equals("preparing")) {
-                this.state = new PreparingState();
-            } else if (status.equals("completed")) {
-                this.state = new CompletedState();
-            } else if (status.equals("pending")) {
-                this.state = new PendingState();
-            } else {
-                throw new UnsupportedOperationException("Status string '"
-                        + status + "' is defined");
-            }
-        }
-
-        public String toString() {
-            return state.toString();
-        }
-
-        private void setState(Status context, StatusState state) {
-            context.state = state;
-        }
-
-        public void prepareSJ() {
-            state.prepareSJ(this);
-        }
-
-        public void signSJ() {
-            state.signSJ(this);
-        }
-
-        public void pendingSJ() {
-            state.pendingSJ(this);
-        }
-    }
-
     public class ItemBeli {
 
         Item item;
@@ -81,7 +41,8 @@ public class SuratJalan {
             result.add(String.valueOf(this.jumlah));
             return result;
         }
-    };
+
+    }
 
     void setItemBeli(ArrayList<String[]> results) {
         for (String[] result : results) {
@@ -188,6 +149,47 @@ public class SuratJalan {
         return current;
     }
 
+    public class Status {
+
+        State state;
+
+        private Status(String status) {
+            if (status.equals("new")) {
+                this.state = new NewState();
+            } else if (status.equals("preparing")) {
+                this.state = new PreparingState();
+            } else if (status.equals("completed")) {
+                this.state = new CompletedState();
+            } else if (status.equals("pending")) {
+                this.state = new PendingState();
+            } else {
+                throw new UnsupportedOperationException("Status string '"
+                        + status + "' is defined");
+            }
+        }
+
+        public String toString() {
+            return state.toString();
+        }
+
+        private void setState(State newState) {
+            this.state = newState;
+        }
+
+        public void prepareSJ() {
+            state.prepareSJ(this);
+        }
+
+        public void signSJ() {
+            state.signSJ(this);
+        }
+
+        public void pendingSJ() {
+            state.pendingSJ(this);
+        }
+
+    }
+
     public void prepareSJ() {
         this.status.prepareSJ();
     }
@@ -200,7 +202,7 @@ public class SuratJalan {
         this.status.pendingSJ();
     }
 
-    interface StatusState {
+    interface State {
 
         public String toString();
 
@@ -212,7 +214,7 @@ public class SuratJalan {
 
     }
 
-    class NewState implements StatusState {
+    class NewState implements State {
 
         @Override
         public String toString() {
@@ -221,7 +223,7 @@ public class SuratJalan {
 
         @Override
         public void prepareSJ(Status context) {
-            context.setState(context, new PreparingState());
+            context.setState(new PreparingState());
         }
 
         @Override
@@ -232,12 +234,12 @@ public class SuratJalan {
 
         @Override
         public void pendingSJ(Status context) {
-            context.setState(context, new PendingState());
+            context.setState(new PendingState());
         }
 
     }
 
-    class PreparingState implements StatusState {
+    class PreparingState implements State {
 
         @Override
         public String toString() {
@@ -252,17 +254,17 @@ public class SuratJalan {
 
         @Override
         public void signSJ(Status context) {
-            context.setState(context, new CompletedState());
+            context.setState(new CompletedState());
         }
 
         @Override
         public void pendingSJ(Status context) {
-            context.setState(context, new PendingState());
+            context.setState(new PendingState());
         }
 
     }
 
-    class CompletedState implements StatusState {
+    class CompletedState implements State {
 
         @Override
         public String toString() {
@@ -289,7 +291,7 @@ public class SuratJalan {
 
     }
 
-    class PendingState implements StatusState {
+    class PendingState implements State {
 
         @Override
         public String toString() {
@@ -298,12 +300,12 @@ public class SuratJalan {
 
         @Override
         public void prepareSJ(Status context) {
-            context.setState(context, new PreparingState());
+            context.setState(new PreparingState());
         }
 
         @Override
         public void signSJ(Status context) {
-            context.setState(context, new CompletedState());
+            context.setState(new CompletedState());
         }
 
         @Override
