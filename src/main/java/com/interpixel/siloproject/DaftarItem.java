@@ -26,7 +26,6 @@ public class DaftarItem extends javax.swing.JPanel {
     }
     
     public void refresh() {
-        throw new UnsupportedOperationException("Refresh method not yet implemented");
     }
 
 

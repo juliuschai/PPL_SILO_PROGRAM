@@ -39,6 +39,7 @@ public class DaftarSJ extends javax.swing.JPanel {
      * Fetch data from database and refresh data in table
      */
     public void refresh() {
+        emptyTable(tabelSJ);
         suratJalans = mainPage.getSJ();
         // Add detail SJ button column
         Action detail = new AbstractAction() {

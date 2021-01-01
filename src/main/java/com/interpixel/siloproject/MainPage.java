@@ -25,7 +25,7 @@ public class MainPage extends javax.swing.JFrame {
 
     private DaftarItem daftarItem;
     private DaftarSJ daftarSJ;
-    private BuatSJForm buatSJForm;
+    private BuatSJForm lastBuatSJForm;
     private DaftarSP daftarSP;
     private DetailSJForm lastDetailSJForm;
     private EmailSJForm lastEmailSJForm;
@@ -99,11 +99,11 @@ public class MainPage extends javax.swing.JFrame {
     }
 
     public void tampilkanBuatSJForm() {
-        if (buatSJForm != null) {
-            cardPanel.remove(buatSJForm);
+        if (lastBuatSJForm != null) {
+            cardPanel.remove(lastBuatSJForm);
         }
-        buatSJForm = new BuatSJForm(this);
-        cardPanel.add(buatSJForm, "Buat SJ Form");
+        lastBuatSJForm = new BuatSJForm(this);
+        cardPanel.add(lastBuatSJForm, "Buat SJ Form");
         cardLayout.show(cardPanel, "Buat SJ Form");
     }
 

@@ -45,7 +45,7 @@ public class SJCtl {
     }
 
     public ArrayList<SuratJalan> getSJ() {
-        List<String[]> results = this.dbHandler.getSJ();
+        List<String[]> results = dbHandler.getSJ();
 
         ArrayList<SuratJalan> suratJalans = new ArrayList<>();
         // Create SJ Objects
