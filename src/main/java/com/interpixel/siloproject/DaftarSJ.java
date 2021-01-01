@@ -28,6 +28,17 @@ public class DaftarSJ extends javax.swing.JPanel {
     public DaftarSJ(MainPage mainPage) {
         initComponents();
         this.addMainPage(mainPage);
+        refresh();
+    }
+
+    public void addMainPage(MainPage mainPage) {
+        this.mainPage = mainPage;
+    }
+
+    /**
+     * Fetch data from database and refresh data in table
+     */
+    public void refresh() {
         suratJalans = mainPage.getSJ();
         // Add detail SJ button column
         Action detail = new AbstractAction() {
@@ -38,16 +49,13 @@ public class DaftarSJ extends javax.swing.JPanel {
                 mainPage.onTampilkanDetailSJ(curSuratJalan);
                 // DefaultTableModel model = ((DefaultTableModel) table.getModel());
                 // model.removeRow(modelRow);
-                
+
             }
         };
 
         ButtonColumn buttonColumn = new ButtonColumn(tabelSJ, detail, 7);
         fillTable(tabelSJ, suratJalans);
-    }
 
-    public void addMainPage(MainPage mainPage) {
-        this.mainPage = mainPage;
     }
 
     private void fillTable(JTable tabelSJ, ArrayList<SuratJalan> suratJalans) {
@@ -57,7 +65,7 @@ public class DaftarSJ extends javax.swing.JPanel {
             ((DefaultTableModel) tabelSJ.getModel()).insertRow(tabelSJ.getRowCount(), row);
         }
     }
-    
+
     private void emptyTable(JTable tabelSJ) {
         DefaultTableModel tableModel = (DefaultTableModel) tabelSJ.getModel();
         if (tableModel.getRowCount() > 0) {

@@ -44,11 +44,17 @@ public class MainPage extends javax.swing.JFrame {
         dbHandler = new DBHandler();
         sjCtl = new SJCtl(this);
         sjCtl.addDBHanlder(dbHandler);
-
+        daftarItem = new DaftarItem(this);
+        daftarSJ = new DaftarSJ(this);
+        daftarSP = new DaftarSP(this);
+        
         // Init JPanels
         cardPanel = new JPanel();
         cardPanel.setLayout(cardLayout);
         cardPanel.add(new JPanel(), "Empty Panel");
+        cardPanel.add(daftarItem, "Daftar Item");
+        cardPanel.add(daftarSJ, "Daftar SJ");
+        cardPanel.add(daftarSP, "Daftar SP");
         setContentPane(cardPanel);
     }
 
@@ -58,20 +64,12 @@ public class MainPage extends javax.swing.JFrame {
 
     // Start routes
     public void tampilkanDaftarItem() {
-        if (daftarItem != null) {
-            cardPanel.remove(daftarItem);
-        }
-        daftarItem = new DaftarItem(this);
-        cardPanel.add(daftarItem, "Daftar Item");
+        daftarItem.refresh();
         cardLayout.show(cardPanel, "Daftar Item");
     }
 
     public void tampilkanDaftarSJ() {
-        if (daftarSJ != null) {
-            cardPanel.remove(daftarSJ);
-        }
-        daftarSJ = new DaftarSJ(this);
-        cardPanel.add(daftarSJ, "Daftar SJ");
+        daftarSJ.refresh();
         cardLayout.show(cardPanel, "Daftar SJ");
     }
 
@@ -104,7 +102,6 @@ public class MainPage extends javax.swing.JFrame {
         if (buatSJForm != null) {
             cardPanel.remove(buatSJForm);
         }
-        
         buatSJForm = new BuatSJForm(this);
         cardPanel.add(buatSJForm, "Buat SJ Form");
         cardLayout.show(cardPanel, "Buat SJ Form");
@@ -154,11 +151,7 @@ public class MainPage extends javax.swing.JFrame {
     }
 
     public void tampilkanDaftarSP() {
-        if (daftarSP != null) {
-            cardPanel.remove(daftarSP);
-        }
-        daftarSP = new DaftarSP(this);
-        cardPanel.add(daftarSP, "Daftar SP");
+        daftarSP.refresh();
         cardLayout.show(cardPanel, "Daftar SP");
     }
 

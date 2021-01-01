@@ -24,6 +24,10 @@ public class DaftarSP extends javax.swing.JPanel {
         this.mainPage = mainPage;
     }
 
+    public void refresh() {
+        throw new UnsupportedOperationException("Refresh method not yet implemented");
+    }
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is

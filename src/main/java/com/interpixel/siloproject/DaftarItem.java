@@ -18,11 +18,17 @@ public class DaftarItem extends javax.swing.JPanel {
     public DaftarItem(MainPage mainPage) {
         initComponents();
         addMainPage(mainPage);
+        refresh();
     }
 
     public void addMainPage(MainPage mainPage) {
         this.mainPage = mainPage;
     }
+    
+    public void refresh() {
+        throw new UnsupportedOperationException("Refresh method not yet implemented");
+    }
+
 
     /** This method is called from within the constructor to
      * initialize the form.
