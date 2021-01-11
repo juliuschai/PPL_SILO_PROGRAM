@@ -36,10 +36,6 @@ public class SJCtl {
     }
 
     // Start routes
-    public void tampilkanDaftarItem() {
-        mainPage.tampilkanDaftarItem();
-    }
-
     public void tampilkanDaftarSJ() {
         mainPage.tampilkanDaftarSJ();
     }

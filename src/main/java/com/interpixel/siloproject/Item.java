@@ -57,6 +57,18 @@ public class Item {
         this.url = url;
     }
 
+    // Construct Item baru
+    public Item(String barcode, String judul, String deskripsi, 
+            String pemanufaktur, String stock, String url) {
+
+        this.barcode = barcode;
+        this.judul = judul;
+        this.deskripsi = deskripsi;
+        this.pemanufaktur = pemanufaktur;
+        this.stock = Integer.parseInt(stock);
+        this.url = url;
+    }
+
     public Vector<String> toVector() {
         Vector<String> current = new Vector<>();
         current.add(String.valueOf(this.id));

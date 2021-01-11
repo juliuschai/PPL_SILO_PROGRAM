@@ -27,6 +27,97 @@ public class DBHandler {
     }
 
     // Get all SJs from db
+    public ArrayList<String[]> getItems() {
+        try {
+            Connection con = initializeDatabase();
+            PreparedStatement st = con.prepareStatement("SELECT * FROM items");
+
+            ResultSet rs = st.executeQuery();
+
+            ArrayList<String[]> results = new ArrayList<>();
+
+            while (rs.next()) {
+                String[] row = {
+                    rs.getString("id"),
+                    rs.getString("barcode"),
+                    rs.getString("judul"),
+                    rs.getString("deskripsi"),
+                    rs.getString("pemanufaktur"),
+                    rs.getString("stock"),
+                    rs.getString("url"),
+                };
+                results.add(row);
+            }
+
+            rs.close();
+            st.close();
+            con.close();
+
+            return results;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public void simpanItemBaru(String[] input) {
+        try {
+            Connection con = initializeDatabase();
+            PreparedStatement st = con.prepareStatement("INSERT INTO items"
+                    + "(barcode, judul, deskripsi, pemanufaktur, stock, url) "
+                    + "VALUES (?, ?, ?, ?, ?, ?)");
+
+            st.setString(1, input[0]);
+            st.setString(2, input[1]);
+            st.setString(3, input[2]);
+            st.setString(4, input[3]);
+            st.setString(5, input[4]);
+            st.setString(6, input[5]);
+            st.executeUpdate();
+
+            st.close();
+            con.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void simpanEditItem(String[] input) {
+        try {
+            Connection con = initializeDatabase();
+            PreparedStatement st = con.prepareStatement("UPDATE items SET "
+                    + "barcode = ?, "
+                    + "judul = ?, "
+                    + "deskripsi = ?, "
+                    + "pemanufaktur = ?, "
+                    + "stock = ?, "
+                    + "url = ?"
+                    + "WHERE id = ?");
+
+            st.setString(1, input[1]);
+            st.setString(2, input[2]);
+            st.setString(3, input[3]);
+            st.setString(4, input[4]);
+            st.setString(5, input[5]);
+            st.setString(6, input[6]);
+            st.setString(7, input[0]);
+            st.executeUpdate();
+
+            st.close();
+            con.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Get all SJs from db
     public ArrayList<String[]> getSJ() {
         try {
             Connection con = initializeDatabase();

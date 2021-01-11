@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 public class MainPage extends javax.swing.JFrame {
 
     private DBHandler dbHandler;
+    private ItemCtl itemCtl;
     private SJCtl sjCtl;
     private CardLayout cardLayout = new CardLayout();
     private JPanel cardPanel;
@@ -27,6 +28,8 @@ public class MainPage extends javax.swing.JFrame {
     private DaftarSJ daftarSJ;
     private BuatSJForm lastBuatSJForm;
     private DaftarSP daftarSP;
+    private ItemBaruForm lastItemBaruForm;
+    private EditItemForm lastEditItemForm;
     private DetailSJForm lastDetailSJForm;
     private EmailSJForm lastEmailSJForm;
 
@@ -42,6 +45,8 @@ public class MainPage extends javax.swing.JFrame {
 
     public void initObjects() {
         dbHandler = new DBHandler();
+        itemCtl = new ItemCtl(this);
+        itemCtl.addDBHanlder(dbHandler);
         sjCtl = new SJCtl(this);
         sjCtl.addDBHanlder(dbHandler);
         daftarItem = new DaftarItem(this);
@@ -66,6 +71,48 @@ public class MainPage extends javax.swing.JFrame {
     public void tampilkanDaftarItem() {
         daftarItem.refresh();
         cardLayout.show(cardPanel, "Daftar Item");
+    }
+
+    public void onTampilkanItemBaruForm() {
+        itemCtl.tampilkanItemBaruForm();
+    }
+
+    public void tampilkanItemBaruForm() {
+        if (lastItemBaruForm != null) {
+            cardPanel.remove(lastItemBaruForm);
+        }
+        lastItemBaruForm = new ItemBaruForm(this);
+        cardPanel.add(lastItemBaruForm, "Detail SJ");
+        cardLayout.show(cardPanel, "Detail SJ");
+    }
+    
+    public void gagalBuatItem() {
+        itemCtl.tampilkanGagalBuatItemDialog();
+    }
+    
+    public void simpanItemBaru(String[] input) {
+        itemCtl.simpanItemBaru(input);
+
+        this.tampilkanDaftarItem();
+    }
+
+    public void onTampilkanEditItemForm(Item curItem) {
+        itemCtl.tampilkanEditItemForm(curItem);
+    }
+
+    public void tampilkanEditItemForm(Item curItem) {
+        if (lastEditItemForm != null) {
+            cardPanel.remove(lastEditItemForm);
+        }
+        lastEditItemForm = new EditItemForm(this, curItem);
+        cardPanel.add(lastEditItemForm, "Detail SJ");
+        cardLayout.show(cardPanel, "Detail SJ");
+    }
+
+    public void simpanEditItem(String[] input) {
+        itemCtl.simpanEditItem(input);
+
+        this.tampilkanDaftarItem();
     }
 
     public void tampilkanDaftarSJ() {
@@ -155,6 +202,10 @@ public class MainPage extends javax.swing.JFrame {
         cardLayout.show(cardPanel, "Daftar SP");
     }
 
+    public ArrayList<Item> getItems() {
+        return itemCtl.getItems();
+    }
+
     public ArrayList<SuratJalan> getSJ() {
         return sjCtl.getSJ();
     }
@@ -234,7 +285,7 @@ public class MainPage extends javax.swing.JFrame {
     }//GEN-LAST:event_buatSJMenuMouseClicked
 
     private void daftarItemMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_daftarItemMenuMouseClicked
-        sjCtl.tampilkanDaftarItem();
+        itemCtl.tampilkanDaftarItem();
     }//GEN-LAST:event_daftarItemMenuMouseClicked
 
     private void daftarSJMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_daftarSJMenuMouseClicked

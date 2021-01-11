@@ -39,7 +39,7 @@ public class DaftarSJ extends javax.swing.JPanel {
      * Fetch data from database and refresh data in table
      */
     public void refresh() {
-        emptyTable(tabelSJ);
+        emptyTable();
         suratJalans = mainPage.getSJ();
         // Add detail SJ button column
         Action detail = new AbstractAction() {
@@ -55,11 +55,11 @@ public class DaftarSJ extends javax.swing.JPanel {
         };
 
         ButtonColumn buttonColumn = new ButtonColumn(tabelSJ, detail, 7);
-        fillTable(tabelSJ, suratJalans);
+        fillTable();
 
     }
 
-    private void fillTable(JTable tabelSJ, ArrayList<SuratJalan> suratJalans) {
+    private void fillTable() {
         for (SuratJalan suratJalan : suratJalans) {
             Vector<String> row = suratJalan.toVector();
             row.add("View");
@@ -67,7 +67,7 @@ public class DaftarSJ extends javax.swing.JPanel {
         }
     }
 
-    private void emptyTable(JTable tabelSJ) {
+    private void emptyTable() {
         DefaultTableModel tableModel = (DefaultTableModel) tabelSJ.getModel();
         if (tableModel.getRowCount() > 0) {
             for (int i = tableModel.getRowCount() - 1; i > -1; i--) {
@@ -144,8 +144,8 @@ public class DaftarSJ extends javax.swing.JPanel {
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
         String keyword = searchTxt.getText();
         suratJalans = mainPage.cariSJ(keyword);
-        emptyTable(tabelSJ);
-        fillTable(tabelSJ, suratJalans);
+        emptyTable();
+        fillTable();
     }//GEN-LAST:event_searchBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -6,6 +6,14 @@
 
 package com.interpixel.siloproject;
 
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Vector;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Julius
@@ -13,6 +21,7 @@ package com.interpixel.siloproject;
 public class DaftarItem extends javax.swing.JPanel {
 
     private MainPage mainPage;
+    private ArrayList<Item>  items;
 
     /** Creates new form DaftarItem */
     public DaftarItem(MainPage mainPage) {
@@ -26,6 +35,40 @@ public class DaftarItem extends javax.swing.JPanel {
     }
     
     public void refresh() {
+        emptyTable();
+        items = mainPage.getItems();
+        // Add detail SJ button column
+        Action detail = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                JTable table = (JTable) e.getSource();
+                int modelRow = Integer.valueOf(e.getActionCommand());
+                Item curItem = items.get(modelRow);
+                mainPage.onTampilkanEditItemForm(curItem);
+                // DefaultTableModel model = ((DefaultTableModel) table.getModel());
+                // model.removeRow(modelRow);
+
+            }
+        };
+
+        ButtonColumn buttonColumn = new ButtonColumn(tabelItem, detail, 7);
+        fillTable();
+    }
+
+    private void fillTable() {
+        for (Item item : items) {
+            Vector<String> row = item.toVector();
+            row.add("Edit");
+            ((DefaultTableModel) tabelItem.getModel()).insertRow(tabelItem.getRowCount(), row);
+        }
+    }
+
+    private void emptyTable() {
+        DefaultTableModel tableModel = (DefaultTableModel) tabelItem.getModel();
+        if (tableModel.getRowCount() > 0) {
+            for (int i = tableModel.getRowCount() - 1; i > -1; i--) {
+                tableModel.removeRow(i);
+            }
+        }
     }
 
 
@@ -38,20 +81,78 @@ public class DaftarItem extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabelItem = new javax.swing.JTable();
+        searchTxt = new javax.swing.JTextField();
+        searchBtn = new javax.swing.JButton();
+        addBtn = new javax.swing.JButton();
+
+        tabelItem.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id", "Barcode", "Judul", "Deskripsi", "Pemanufaktur", "Stock", "url", "Aksi"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        tabelItem.setToolTipText("");
+        jScrollPane1.setViewportView(tabelItem);
+
+        searchBtn.setText("Cari");
+
+        addBtn.setText("Add");
+        addBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(searchTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(searchBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(addBtn)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(44, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searchTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchBtn)
+                    .addComponent(addBtn))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
+        mainPage.onTampilkanItemBaruForm();
+    }//GEN-LAST:event_addBtnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addBtn;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton searchBtn;
+    private javax.swing.JTextField searchTxt;
+    private javax.swing.JTable tabelItem;
     // End of variables declaration//GEN-END:variables
 
 }
