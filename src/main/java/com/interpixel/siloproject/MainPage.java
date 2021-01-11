@@ -21,6 +21,7 @@ public class MainPage extends javax.swing.JFrame {
     private DBHandler dbHandler;
     private ItemCtl itemCtl;
     private SJCtl sjCtl;
+    private SPCtl spCtl;
     private CardLayout cardLayout = new CardLayout();
     private JPanel cardPanel;
 
@@ -49,6 +50,8 @@ public class MainPage extends javax.swing.JFrame {
         itemCtl.addDBHanlder(dbHandler);
         sjCtl = new SJCtl(this);
         sjCtl.addDBHanlder(dbHandler);
+        spCtl = new SPCtl(this);
+        spCtl.addDBHanlder(dbHandler);
         daftarItem = new DaftarItem(this);
         daftarSJ = new DaftarSJ(this);
         daftarSP = new DaftarSP(this);
@@ -71,6 +74,14 @@ public class MainPage extends javax.swing.JFrame {
     public void tampilkanDaftarItem() {
         daftarItem.refresh();
         cardLayout.show(cardPanel, "Daftar Item");
+    }
+
+    public ArrayList<Item> getItems() {
+        return itemCtl.getItems();
+    }
+
+    public ArrayList<Item> cariItem(String keyword) {
+        return itemCtl.cariItem(keyword);
     }
 
     public void onTampilkanItemBaruForm() {
@@ -118,6 +129,14 @@ public class MainPage extends javax.swing.JFrame {
     public void tampilkanDaftarSJ() {
         daftarSJ.refresh();
         cardLayout.show(cardPanel, "Daftar SJ");
+    }
+
+    public ArrayList<SuratJalan> getSJ() {
+        return sjCtl.getSJ();
+    }
+
+    public ArrayList<SuratJalan> cariSJ(String keyword) {
+        return sjCtl.cariSJ(keyword);
     }
 
     public void onTampilkanDetailSJ(SuratJalan curSuratJalan) {
@@ -200,18 +219,6 @@ public class MainPage extends javax.swing.JFrame {
     public void tampilkanDaftarSP() {
         daftarSP.refresh();
         cardLayout.show(cardPanel, "Daftar SP");
-    }
-
-    public ArrayList<Item> getItems() {
-        return itemCtl.getItems();
-    }
-
-    public ArrayList<SuratJalan> getSJ() {
-        return sjCtl.getSJ();
-    }
-
-    public ArrayList<SuratJalan> cariSJ(String keyword) {
-        return sjCtl.cariSJ(keyword);
     }
 
     /**

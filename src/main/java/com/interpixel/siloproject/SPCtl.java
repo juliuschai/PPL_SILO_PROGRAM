@@ -10,5 +10,19 @@ package com.interpixel.siloproject;
  * @author Julius
  */
 public class SPCtl {
-    
+    DBHandler dbHandler;
+    MainPage mainPage;
+
+    public SPCtl(MainPage mainPage) {
+        this.addMainPage(mainPage);
+    }
+
+    public void addDBHanlder(DBHandler dbHandler) {
+        this.dbHandler = dbHandler;
+    }
+
+    public void addMainPage(MainPage mainPage) {
+        this.mainPage = mainPage;
+    }
+
 }

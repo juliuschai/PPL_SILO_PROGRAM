@@ -61,6 +61,57 @@ public class DBHandler {
         return null;
     }
 
+    // Get all SJs from db
+    public ArrayList<String[]> cariItem(String keyword) {
+        try {
+            // Append % symbol
+            keyword = "%" + keyword + "%";
+            Connection con = initializeDatabase();
+            PreparedStatement st = con.prepareStatement("SELECT * FROM items "
+                    + "WHERE id LIKE ? "
+                    + "OR barcode LIKE ? "
+                    + "OR judul LIKE ? "
+                    + "OR deskripsi LIKE ? "
+                    + "OR pemanufaktur LIKE ? "
+                    + "OR stock LIKE ? "
+                    + "OR url LIKE ? ");
+
+            st.setString(1, keyword);
+            st.setString(2, keyword);
+            st.setString(3, keyword);
+            st.setString(4, keyword);
+            st.setString(5, keyword);
+            st.setString(6, keyword);
+            st.setString(7, keyword);
+            ResultSet rs = st.executeQuery();
+
+            ArrayList<String[]> results = new ArrayList<>();
+
+            while (rs.next()) {
+                String[] row = {
+                    rs.getString("id"),
+                    rs.getString("barcode"),
+                    rs.getString("judul"),
+                    rs.getString("deskripsi"),
+                    rs.getString("pemanufaktur"),
+                    rs.getString("stock"),
+                    rs.getString("url"),
+                };
+                results.add(row);
+            }
+
+            rs.close();
+            st.close();
+            con.close();
+
+            return results;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public void simpanItemBaru(String[] input) {
         try {
             Connection con = initializeDatabase();
@@ -170,7 +221,6 @@ public class DBHandler {
                     + "OR nomorSj LIKE ? "
                     + "OR namaCustomer LIKE ? "
                     + "OR emailCustomer LIKE ? "
-                    + "OR nomorInvoice LIKE ? "
                     + "OR tanggalOrder LIKE ? "
                     + "OR tanggalSelesai LIKE ? "
                     + "OR status LIKE ? ");
@@ -182,7 +232,6 @@ public class DBHandler {
             st.setString(5, keyword);
             st.setString(6, keyword);
             st.setString(7, keyword);
-            st.setString(8, keyword);
             ResultSet rs = st.executeQuery();
 
             ArrayList<String[]> results = new ArrayList<>();

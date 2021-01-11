@@ -107,6 +107,11 @@ public class DaftarItem extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tabelItem);
 
         searchBtn.setText("Cari");
+        searchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBtnActionPerformed(evt);
+            }
+        });
 
         addBtn.setText("Add");
         addBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -145,6 +150,13 @@ public class DaftarItem extends javax.swing.JPanel {
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         mainPage.onTampilkanItemBaruForm();
     }//GEN-LAST:event_addBtnActionPerformed
+
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
+        String keyword = searchTxt.getText();
+        items = mainPage.cariItem(keyword);
+        emptyTable();
+        fillTable();
+    }//GEN-LAST:event_searchBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

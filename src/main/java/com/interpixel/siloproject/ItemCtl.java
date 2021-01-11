@@ -34,6 +34,30 @@ public class ItemCtl {
         mainPage.tampilkanDaftarItem();
     }
 
+    public ArrayList<Item> getItems() {
+        List<String[]> results = dbHandler.getItems();
+
+        ArrayList<Item> items = new ArrayList<>();
+        // Create SJ Objects
+        for (String[] row : results) {
+            Item item = new Item(row);
+            items.add(item);
+        }
+        return items;
+    }
+
+    public ArrayList<Item> cariItem(String keyword) {
+        List<String[]> results = dbHandler.cariItem(keyword);
+
+        ArrayList<Item> items = new ArrayList<>();
+        // Create SJ Objects
+        for (String[] row : results) {
+            Item item = new Item(row);
+            items.add(item);
+        }
+        return items;
+    }
+
     public void tampilkanItemBaruForm() {
         mainPage.tampilkanItemBaruForm();
     }
@@ -57,17 +81,6 @@ public class ItemCtl {
 
     public void simpanEditItem(String[] input) {
         dbHandler.simpanEditItem(input);
-    }
-    public ArrayList<Item> getItems() {
-        List<String[]> results = dbHandler.getItems();
-
-        ArrayList<Item> items = new ArrayList<>();
-        // Create SJ Objects
-        for (String[] row : results) {
-            Item item = new Item(row);
-            items.add(item);
-        }
-        return items;
     }
 
 }
