@@ -26,7 +26,7 @@ public class DBHandler {
         return con;
     }
 
-    // Get all SJs from db
+    // Get all Items from db
     public ArrayList<String[]> getItems() {
         try {
             Connection con = initializeDatabase();
@@ -439,14 +439,201 @@ public class DBHandler {
         }
     }
 
-    // Get current item stocks for a SJ
-    public HashMap<Integer, Integer> getStock(SuratJalan suratJalan) {
+    // Get all SJs from db
+    public ArrayList<String[]> getSPs() {
+        try {
+            Connection con = initializeDatabase();
+            PreparedStatement st = con.prepareStatement("SELECT * FROM surat_pembelians");
+
+            ResultSet rs = st.executeQuery();
+
+            ArrayList<String[]> results = new ArrayList<>();
+
+            while (rs.next()) {
+                // special case for when tanggalSelesai is null
+                String tanggalSelesai = null;
+                if (rs.getTimestamp("tanggalSelesai") == null) {
+                    tanggalSelesai = null;
+                } else {
+                    tanggalSelesai = rs.getTimestamp("tanggalSelesai").toString();
+                }
+                String[] row = {
+                    rs.getString("nomorInvoice"),
+                    rs.getString("nomorPO"),
+                    rs.getString("namaSuplier"),
+                    rs.getTimestamp("tanggalOrder").toString(),
+                    tanggalSelesai,
+                    rs.getString("status")
+                };
+                results.add(row);
+            }
+
+            rs.close();
+            st.close();
+            con.close();
+
+            return results;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    // Get SJs giving a certain keyword
+    public ArrayList<String[]> cariSP(String keyword) {
+        try {
+            // Append % symbol
+            keyword = "%" + keyword + "%";
+            Connection con = initializeDatabase();
+            PreparedStatement st = con.prepareStatement("SELECT * FROM surat_pembelians "
+                    + "WHERE nomorInvoice LIKE ? "
+                    + "OR nomorPO LIKE ? "
+                    + "OR namaSuplier LIKE ? "
+                    + "OR tanggalOrder LIKE ? "
+                    + "OR tanggalSelesai LIKE ? "
+                    + "OR status LIKE ? ");
+
+            st.setString(1, keyword);
+            st.setString(2, keyword);
+            st.setString(3, keyword);
+            st.setString(4, keyword);
+            st.setString(5, keyword);
+            st.setString(6, keyword);
+            ResultSet rs = st.executeQuery();
+
+            ArrayList<String[]> results = new ArrayList<>();
+
+            while (rs.next()) {
+                // special case for when tanggalSelesai is null
+                String tanggalSelesai = null;
+                if (rs.getTimestamp("tanggalSelesai") == null) {
+                    tanggalSelesai = null;
+                } else {
+                    tanggalSelesai = rs.getTimestamp("tanggalSelesai").toString();
+                }
+                String[] row = {
+                    rs.getString("nomorInvoice"),
+                    rs.getString("nomorPO"),
+                    rs.getString("namaSuplier"),
+                    rs.getTimestamp("tanggalOrder").toString(),
+                    tanggalSelesai,
+                    rs.getString("status")
+                };
+                results.add(row);
+            }
+
+            rs.close();
+            st.close();
+            con.close();
+
+            return results;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    // Get items belonging to a SJ
+    public ArrayList<String[]> getSPItems(SuratPembelian curSuratPembelian) {
+        try {
+            // Append % symbol
+            Connection con = initializeDatabase();
+            PreparedStatement st = con.prepareStatement("SELECT id, barcode, "
+                    + "judul, deskripsi, pemanufaktur, stock, url, jumlah "
+                    + "FROM surat_pembelian_items "
+                    + "INNER JOIN items ON items.id = surat_pembelian_items.itemId "
+                    + "WHERE nomorPO = ? ");
+
+            st.setString(1, curSuratPembelian.nomorPO);
+            ResultSet rs = st.executeQuery();
+
+            ArrayList<String[]> results = new ArrayList<>();
+
+            while (rs.next()) {
+                String[] row = {
+                    rs.getString("id"),
+                    rs.getString("barcode"),
+                    rs.getString("judul"),
+                    rs.getString("deskripsi"),
+                    rs.getString("pemanufaktur"),
+                    rs.getString("stock"),
+                    rs.getString("url"),
+                    rs.getString("jumlah")
+                };
+                results.add(row);
+            }
+
+            rs.close();
+            st.close();
+            con.close();
+
+            return results;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public void terimaSP(SuratPembelian suratPembelian) {
+        try {
+            Connection con = initializeDatabase();
+            PreparedStatement st = con.prepareStatement("UPDATE surat_pembelians "
+                    + "SET status = ?, "
+                    + "tanggalSelesai = ? "
+                    + "WHERE nomorPO = ?");
+
+            st.setString(1, suratPembelian.status.toString());
+            st.setString(2, suratPembelian.tanggalSelesai.toString());
+            st.setString(3, suratPembelian.nomorPO);
+            st.executeUpdate();
+
+            st.close();
+            con.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void pendingSP(SuratPembelian suratPembelian) {
+        updateStatusSP(suratPembelian);
+    }
+
+    // Propagate status of current SP to dbHandler
+    private void updateStatusSP(SuratPembelian suratPembelian) {
+        try {
+            Connection con = initializeDatabase();
+            PreparedStatement st = con.prepareStatement("UPDATE surat_pembelians "
+                    + "SET status = ? "
+                    + "WHERE nomorPO = ?");
+
+            st.setString(1, suratPembelian.status.toString());
+            st.setString(2, suratPembelian.nomorPO);
+            st.executeUpdate();
+
+            st.close();
+
+            con.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Get current item stocks, given ids
+    public HashMap<Integer, Integer> getStock(int[] ids) {
         HashMap<Integer, Integer> result = new HashMap<Integer, Integer>();
         try {
             Connection con = initializeDatabase();
             PreparedStatement st;
 
-            int[] ids = suratJalan.itemIdsToArr();
             for (int id : ids) {
                 st = con.prepareStatement("SELECT id, stock "
                         + "FROM items WHERE id IN (?) ");
@@ -459,6 +646,9 @@ public class DBHandler {
                     throw new UnsupportedOperationException("Item with id: "
                             + id + " Nnt found");
                 }
+
+                rs.close();
+                st.close();
             }
             con.close();
         } catch (SQLException e) {

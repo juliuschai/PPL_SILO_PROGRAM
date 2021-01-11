@@ -28,11 +28,12 @@ public class MainPage extends javax.swing.JFrame {
     private DaftarItem daftarItem;
     private DaftarSJ daftarSJ;
     private BuatSJForm lastBuatSJForm;
-    private DaftarSP daftarSP;
     private ItemBaruForm lastItemBaruForm;
     private EditItemForm lastEditItemForm;
     private DetailSJForm lastDetailSJForm;
     private EmailSJForm lastEmailSJForm;
+    private DaftarSP daftarSP;
+    private DetailSPForm lastDetailSPForm;
 
     /**
      * Creates new form MainPage
@@ -220,6 +221,43 @@ public class MainPage extends javax.swing.JFrame {
         daftarSP.refresh();
         cardLayout.show(cardPanel, "Daftar SP");
     }
+    public ArrayList<SuratPembelian> getSPs() {
+        return spCtl.getSPs();
+    }
+
+    public ArrayList<SuratPembelian> cariSP(String keyword) {
+        return spCtl.cariSP(keyword);
+    }
+
+    public void onTampilkanDetailSP(SuratPembelian curSuratPembelian) {
+        spCtl.tampilkanDetailSP(curSuratPembelian);
+    }
+
+    public void tampilkanDetailSP(SuratPembelian curSuratPembelian) {
+        if (lastDetailSPForm != null) {
+            cardPanel.remove(lastDetailSPForm);
+        }
+        lastDetailSPForm = new DetailSPForm(this, curSuratPembelian);
+        cardPanel.add(lastDetailSPForm, "Detail SP");
+        cardLayout.show(cardPanel, "Detail SP");
+    }
+
+    public void tampilkanDetailSP() {
+        if (lastBuatSJForm != null) {
+            cardPanel.remove(lastBuatSJForm);
+        }
+        lastBuatSJForm = new BuatSJForm(this);
+        cardPanel.add(lastBuatSJForm, "Detail SP Form");
+        cardLayout.show(cardPanel, "Detail SJ Form");
+    }
+
+    public void terimaSP(SuratPembelian suratPembelian) {
+        spCtl.terimaSP(suratPembelian);
+    }
+
+    public void pendingSP(SuratPembelian suratPembelian) {
+        spCtl.pendingSP(suratPembelian);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -300,7 +338,7 @@ public class MainPage extends javax.swing.JFrame {
     }//GEN-LAST:event_daftarSJMenuMouseClicked
 
     private void daftarSPMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_daftarSPMenuMouseClicked
-        sjCtl.tampilkanDaftarSP();
+        spCtl.tampilkanDaftarSP();
     }//GEN-LAST:event_daftarSPMenuMouseClicked
 
     /**

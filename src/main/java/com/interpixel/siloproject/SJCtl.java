@@ -77,7 +77,7 @@ public class SJCtl {
 
     public void signSJ(SuratJalan suratJalan) {
         // Check if stock is enough
-        HashMap<Integer, Integer> dbItems = dbHandler.getStock(suratJalan);
+        HashMap<Integer, Integer> dbItems = dbHandler.getStock(suratJalan.itemIdsToArr());
         HashMap<Integer, Integer> sjItems = suratJalan.itemsToDict();
         for (Integer key : sjItems.keySet()) {
             if (dbItems.get(key) >= sjItems.get(key)) {
@@ -172,10 +172,6 @@ public class SJCtl {
                 e.printStackTrace();
             }
         }
-    }
-
-    public void tampilkanDaftarSP() {
-        mainPage.tampilkanDaftarSP();
     }
 
 }

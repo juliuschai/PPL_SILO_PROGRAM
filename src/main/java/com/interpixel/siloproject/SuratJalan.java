@@ -69,7 +69,7 @@ public class SuratJalan {
         return sb.toString();
     }
 
-    void setItemBeli(ArrayList<String[]> results) {
+    public void setItemBeli(ArrayList<String[]> results) {
         for (String[] result : results) {
             Item item = new Item(result);
             int jumlah = Integer.parseInt(result[7]);
@@ -97,17 +97,6 @@ public class SuratJalan {
     public int[] itemIdsToArr() {
         int length = this.items.size();
         int[] result = new int[length];
-        for (int i = 0; i < this.items.size(); i++) {
-            ItemBeli itemBeli = this.items.get(i);
-            result[i] = itemBeli.item.id;
-        }
-        return result;
-    }
-
-    // item ids of cur SJ into Object array, used to create sql array
-    public Object[] itemIdsToObjArr() {
-        int length = this.items.size();
-        Object[] result = new Object[length];
         for (int i = 0; i < this.items.size(); i++) {
             ItemBeli itemBeli = this.items.get(i);
             result[i] = itemBeli.item.id;

@@ -6,6 +6,14 @@
 
 package com.interpixel.siloproject;
 
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Vector;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Julius
@@ -13,11 +21,13 @@ package com.interpixel.siloproject;
 public class DaftarSP extends javax.swing.JPanel {
 
     private MainPage mainPage;
+    private ArrayList<SuratPembelian> suratPembelians;
 
     /** Creates new form DaftarSP */
     public DaftarSP(MainPage mainPage) {
         initComponents();
         addMainPage(mainPage);
+        refresh();
     }
     
     public void addMainPage(MainPage mainPage) {
@@ -25,6 +35,41 @@ public class DaftarSP extends javax.swing.JPanel {
     }
 
     public void refresh() {
+        emptyTable();
+        suratPembelians = mainPage.getSPs();
+        // Add detail SJ button column
+        Action detail = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                JTable table = (JTable) e.getSource();
+                int modelRow = Integer.valueOf(e.getActionCommand());
+                SuratPembelian curSuratPembelian = suratPembelians.get(modelRow);
+                mainPage.onTampilkanDetailSP(curSuratPembelian);
+                // DefaultTableModel model = ((DefaultTableModel) table.getModel());
+                // model.removeRow(modelRow);
+
+            }
+        };
+
+        ButtonColumn buttonColumn = new ButtonColumn(tabelSP, detail, 6);
+        fillTable();
+
+    }
+
+    private void fillTable() {
+        for (SuratPembelian suratPembelian : suratPembelians) {
+            Vector<String> row = suratPembelian.toVector();
+            row.add("View");
+            ((DefaultTableModel) tabelSP.getModel()).insertRow(tabelSP.getRowCount(), row);
+        }
+    }
+
+    private void emptyTable() {
+        DefaultTableModel tableModel = (DefaultTableModel) tabelSP.getModel();
+        if (tableModel.getRowCount() > 0) {
+            for (int i = tableModel.getRowCount() - 1; i > -1; i--) {
+                tableModel.removeRow(i);
+            }
+        }
     }
 
     /** This method is called from within the constructor to
@@ -36,20 +81,75 @@ public class DaftarSP extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabelSP = new javax.swing.JTable();
+        searchTxt = new javax.swing.JTextField();
+        searchBtn = new javax.swing.JButton();
+
+        tabelSP.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nomor Invoice", "Nomor PO", "Nama Suplier", "Tanggal Order", "Tanggal Selesai", "Status", "Aksi"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tabelSP);
+
+        searchBtn.setText("Cari");
+        searchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 589, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(searchTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(searchBtn)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(35, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searchTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchBtn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
+        String keyword = searchTxt.getText();
+        suratPembelians = mainPage.cariSP(keyword);
+        emptyTable();
+        fillTable();
+    }//GEN-LAST:event_searchBtnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton searchBtn;
+    private javax.swing.JTextField searchTxt;
+    private javax.swing.JTable tabelSP;
     // End of variables declaration//GEN-END:variables
 
 }
