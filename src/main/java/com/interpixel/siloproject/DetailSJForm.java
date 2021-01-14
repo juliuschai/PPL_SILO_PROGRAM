@@ -82,6 +82,7 @@ public class DetailSJForm extends javax.swing.JPanel {
         } else {
             throw new UnsupportedOperationException("SuratJalan status undefined");
         }
+        populateForm();
     }
 
     /**
@@ -196,14 +197,14 @@ public class DetailSJForm extends javax.swing.JPanel {
             }
         });
 
-        printBtn.setText("Print Hardcopy");
+        printBtn.setText("Print");
         printBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 printBtnActionPerformed(evt);
             }
         });
 
-        emailBtn.setText("Send Softcopy");
+        emailBtn.setText("Email");
         emailBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emailBtnActionPerformed(evt);

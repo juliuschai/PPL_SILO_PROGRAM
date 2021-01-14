@@ -64,6 +64,7 @@ public class DetailSPForm extends javax.swing.JPanel {
         } else {
             throw new UnsupportedOperationException("SuratPembelian status undefined");
         }
+        populateForm();
     }
 
     /**
